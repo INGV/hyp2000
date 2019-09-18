@@ -1,0 +1,123 @@
+FROM alpine
+
+# Authors: Valentino Lauciani and Matteo Quintiliani
+
+LABEL maintainer="Matteo Quintiliani <matteo.quintiliani@ingv.it>"
+
+ENV EW_INSTALL_INSTALLATION="INST_INGV"
+ENV EW_INSTALL_HOME="/opt"
+ENV EW_INSTALL_VERSION="earthworm"
+ENV EW_INSTALL_BITS=64
+ENV EW_RUN_DIR="$EW_INSTALL_HOME/$EW_INSTALL_VERSION"
+
+# Deploy token for ew2openapi repository
+ENV DEPLOY_TOKEN="gitlab+deploy-token-1"
+ENV DEPLOY_SECRET="9c5vS1x_YsFC4LLHE4sS"
+
+# glibc version
+ENV GLIBC_VERSION 2.28-r0
+
+# Set 'root' pwd
+RUN echo root:toor | chpasswd
+
+# Set .bashrc
+RUN echo "" >> /root/.bashrc \
+     && echo "" >> /root/.bashrc \
+     && echo "export LC_ALL=\"C\"" >> /root/.bashrc \
+     && echo "" >> /root/.bashrc \
+	 && echo "export EW_INSTALL_INSTALLATION=\"$EW_INSTALL_INSTALLATION}\"" >> /root/.bashrc \
+	 && echo "export EW_INSTALL_HOME=\"${EW_INSTALL_HOME}\"" >> /root/.bashrc \
+	 && echo "export EW_INSTALL_VERSION=\"${EW_INSTALL_VERSION}\"" >> /root/.bashrc \
+	 && echo "export EW_INSTALL_BITS=${EW_INSTALL_BITS}" >> /root/.bashrc \
+	 && echo "export EW_RUN_DIR=\"$EW_INSTALL_HOME/$EW_INSTALL_VERSION\"" >> /root/.bashrc \
+     && echo "" >> /root/.bashrc
+
+WORKDIR /opt
+
+# Download and install glibc
+# install necessary packages
+# checkout necessary Earthworm repository directory
+# checkout and compile ew2openapi
+# remove unnecessary packages
+RUN apk add --update curl && \
+		#curl -Lo /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+		curl -Lo /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/3662aea7d82a4a6bd24a4638267e2013be150e2f/sgerrand.rsa.pub && \
+		curl -Lo glibc.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk" && \
+		curl -Lo glibc-bin.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk" && \
+		apk add glibc-bin.apk glibc.apk && \
+		/usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib && \
+		echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
+		apk del curl && \
+		rm -rf glibc.apk glibc-bin.apk /var/cache/apk/* \
+		&& apk add --no-cache \
+			subversion \
+			make \
+			gfortran \
+			cmake \
+			git \
+			bash \
+			musl-dev \
+			linux-headers \
+			portablexdr-dev \
+			autoconf \
+			libtool \
+			automake \
+			curl-dev \
+		&& svn checkout --depth empty svn://svn.isti.com/earthworm/trunk  $EW_INSTALL_HOME/$EW_INSTALL_VERSION \
+		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION/ \
+		&& svn update --set-depth infinity include  \
+		&& svn update --set-depth infinity lib \
+		&& svn update --set-depth empty bin \
+		&& svn update --set-depth infinity environment \
+		&& svn update --set-depth infinity params \
+		&& svn update --set-depth empty src \
+		&& svn update --set-depth infinity src/libsrc \
+		&& svn update --set-depth empty src/seismic_processing \
+		&& svn update --set-depth infinity src/seismic_processing/hyp2000 \
+		&& sed -i'.bak' -e "s/PTHREAD_MUTEX_ADAPTIVE_NP/PTHREAD_MUTEX_NORMAL/g" $EW_INSTALL_HOME/$EW_INSTALL_VERSION/src/libsrc/unix/sema_ew.c \
+		&& cp $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/earthworm.d $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/earthworm_global.d $EW_INSTALL_HOME/$EW_INSTALL_VERSION/params/ \
+		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION/src/libsrc \
+		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && make -f makefile.unix' \
+		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION/src/seismic_processing/hyp2000 \
+		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && make -f makefile.unix' \
+		&& cd $EW_RUN_DIR \
+		&& git clone https://${DEPLOY_TOKEN}:${DEPLOY_SECRET}@gitlab.rm.ingv.it/earthworm/ew2openapi.git/ \
+		&& cd ew2openapi \
+		&& git submodule update --init \
+		&& cd json-c \
+		&& sh autogen.sh \
+		&& ./configure --prefix=`pwd`/build CFLAGS="-std=c99" \
+		&& make \
+		&& make install \
+		&& cd - \
+		&& mkdir -p rabbitmq-c/build \
+		&& cd rabbitmq-c/build \
+		&& cmake -DENABLE_SSL_SUPPORT=OFF .. \
+		&& cmake --build . \
+		&& cd - \
+		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && make -f makefile.unix static' \
+		&& cp $EW_INSTALL_HOME/$EW_INSTALL_VERSION/bin/ew2openapi ./ \
+		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && mkdir -p $EW_LOG' \
+		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION/ \
+		&& rm -fr .svn src include lib ew2openapi \
+		&& apk del \
+			subversion \
+			make \
+			cmake \
+			git \
+			musl-dev \
+			linux-headers \
+			portablexdr-dev \
+			autoconf \
+			libtool \
+			automake \
+		&& rm -rf /var/cache/apk/*
+
+# Do not remove bash, curl-dev, gfortran
+
+# Copy file(s)
+WORKDIR /opt
+COPY entrypoint.sh /opt
+
+# Run Hyp2000
+ENTRYPOINT ["bash", "/opt/entrypoint.sh"]
