@@ -55,3 +55,8 @@ bash-4.4# cat italy2000.hyp | hyp2000
 
 # Contribute
 Please, feel free to contribute.
+
+# Author
+(c) 2019 Valentino Lauciani valentino.lauciani[at]ingv.it
+
+Istituto Nazionale di Geofisica e Vulcanologia, Italia
