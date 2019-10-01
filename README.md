@@ -24,20 +24,6 @@ Run:
 $ docker run -v $(pwd)/example:/opt/data hyp2000:1.0 italy2000.hyp 
 ```
 
-From Container Registry
-
-```
-docker login gitlab.rm.ingv.it:7654
-```
-
-```
-docker run -v $(pwd)/example:/opt/data gitlab.rm.ingv.it:7654/docker/docker_hyp2000:latest italy2000.hyp
-```
-
-```
-docker run -v $(pwd)/example:/opt/data gitlab.rm.ingv.it:7654/docker/docker_hyp2000:alpine italy2000.hyp
-```
-
 
 #### Docker CLI
 To override the `ENTRYPOINT` directive and enter into the Docker images, run:
