@@ -1,9 +1,9 @@
-# docker_hyp2000
+# hyp2000
 
 Docker used to run HYP2000: determines earthquake locations and magnitudes from seismic network data like first-arrival P and S arrival times, amplitudes and coda durations.
 
 More info here:
-- https://earthquake.usgs.gov/research/software/#HYPOINVERSE
+- https://www.usgs.gov/software/hypoinverse-earthquake-location
 
 ## Quickstart
 ### Build docker
