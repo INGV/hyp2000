@@ -87,6 +87,10 @@ RUN apt-get clean \
 		&& cmake -DENABLE_SSL_SUPPORT=OFF .. \
 		&& cmake --build . \
 		&& cd - \
+		&& cd liblo \
+		&& ./autogen.sh --enable-static \
+		&& make \
+		&& cd - \
 		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && make -f makefile.unix static' \
 		&& cp $EW_INSTALL_HOME/$EW_INSTALL_VERSION/bin/ew2openapi ./ \
 		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && mkdir -p $EW_LOG' \
