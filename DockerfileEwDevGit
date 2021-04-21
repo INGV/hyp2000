@@ -87,7 +87,8 @@ RUN echo \
 		&& ./autogen.sh --enable-static \
 		&& make \
 		&& cd - \
-		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && make -f makefile.unix static' \
+		#&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && make -f makefile.unix static' \
+		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && make -f makefile.unix GLOBALFLAGS="$GLOBALFLAGS -D ARC_EXTRA_FIELDS" static' \
 		&& cp $EW_INSTALL_HOME/$EW_INSTALL_VERSION/bin/ew2openapi ./ \
 		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && mkdir -p $EW_LOG' \
 		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION/ \
