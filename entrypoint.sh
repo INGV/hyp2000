@@ -14,7 +14,9 @@ if [ -d ${DIR_DATA} ]; then
 	# 
 	if [ -d ${DIR_DATA}/output ]; then
 		DIR_OUTPUT=${DIR_DATA}/output
-		rm ${DIR_OUTPUT}/*
+		if [ -n "$(ls -A ${DIR_OUTPUT})" ]; then
+			rm ${DIR_OUTPUT}/*
+		fi
 	else 
 		mkdir ${DIR_OUTPUT}/
 	fi
