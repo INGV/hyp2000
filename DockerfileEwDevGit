@@ -62,6 +62,9 @@ RUN apt-get clean \
 		&& apt-get clean
 RUN echo \
 		&& git clone https://${DEPLOY_TOKEN_EW}:${DEPLOY_SECRET_EW}@gitlab.rm.ingv.it/earthworm/earthworm.git/ $EW_INSTALL_HOME/$EW_INSTALL_VERSION \
+		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION \
+		&& git checkout -t origin/feature/issue_ew2openapi_25_extend_read_arc_library \
+		&& cd - \
 		&& cp $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/earthworm.d $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/earthworm_global.d $EW_INSTALL_HOME/$EW_INSTALL_VERSION/params/ \
 		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION/src/libsrc \
 		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && make -f makefile.unix' \
