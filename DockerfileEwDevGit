@@ -15,6 +15,8 @@ ENV EW_INSTALL_HOME="/opt"
 ENV EW_INSTALL_VERSION="earthworm"
 ENV EW_INSTALL_BITS=64
 ENV EW_RUN_DIR="$EW_INSTALL_HOME/$EW_INSTALL_VERSION"
+# https://gitlab.com/seismic-software/earthworm/-/commit/6382013f288ef0f2e40748f7411b792c05c72a66
+ENV EW_GIT_REF="6382013f288ef0f2e40748f7411b792c05c72a66"
 
 # Deploy token for ew2openapi repository
 ENV DEPLOY_TOKEN="gitlab+deploy-token-1"
@@ -58,12 +60,15 @@ RUN apt-get clean \
 		git \
 		libcurl4-openssl-dev \
 		dh-autoreconf \
+		libtirpc-dev \
 		autotools-dev \
 		&& apt-get clean
+
+# Checkout necessary Earthworm repository directories
 RUN echo \
-		&& git clone https://${DEPLOY_TOKEN_EW}:${DEPLOY_SECRET_EW}@gitlab.rm.ingv.it/earthworm/earthworm.git/ $EW_INSTALL_HOME/$EW_INSTALL_VERSION \
+		&& git clone --recursive https://gitlab.com/seismic-software/earthworm.git $EW_INSTALL_HOME/$EW_INSTALL_VERSION \
 		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION \
-		&& git checkout -t origin/feature/issue_ew2openapi_25_extend_read_arc_library \
+		&& git checkout ${EW_GIT_REF} \
 		&& cd - \
 		&& cp $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/earthworm.d $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/earthworm_global.d $EW_INSTALL_HOME/$EW_INSTALL_VERSION/params/ \
 		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION/src/libsrc \
