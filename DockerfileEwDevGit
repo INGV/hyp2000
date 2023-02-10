@@ -62,6 +62,8 @@ RUN apt-get clean \
 		dh-autoreconf \
 		libtirpc-dev \
 		autotools-dev \
+		pkg-config \
+		jq \
 		&& apt-get clean
 
 # Checkout necessary Earthworm repository directories
@@ -78,7 +80,7 @@ RUN echo \
 		&& cd $EW_RUN_DIR \
 		&& git clone https://${DEPLOY_TOKEN}:${DEPLOY_SECRET}@gitlab.rm.ingv.it/earthworm/ew2openapi.git/ \
 		&& cd ew2openapi \
-		&& git checkout develop \
+		&& git checkout master \
 		&& git submodule deinit -f --all \
 		&& git submodule update --init \
 		&& bash -c 'sed -e "s/WARNFLAGS=\(.*\)$/# WARNFLAGS=\1\nWARNFLAGS=\"-Wall\"/g" $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash > $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.WARNFLAGS.bash' \
