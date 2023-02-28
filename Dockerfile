@@ -75,23 +75,11 @@ RUN apt-get clean \
 		&& cd $EW_RUN_DIR \
 		&& git clone https://${DEPLOY_TOKEN}:${DEPLOY_SECRET}@gitlab.rm.ingv.it/earthworm/ew2openapi.git/ \
 		&& cd ew2openapi \
+		&& git checkout master \
+		&& git submodule deinit -f --all \
 		&& git submodule update --init \
-		&& cd json-c \
-		&& sh autogen.sh \
-		&& ./configure --prefix=`pwd`/build CFLAGS="-std=c99" \
-		&& make \
-		&& make install \
-		&& cd - \
-		&& mkdir -p rabbitmq-c/build \
-		&& cd rabbitmq-c/build \
-		&& cmake -DENABLE_SSL_SUPPORT=OFF .. \
-		&& cmake --build . \
-		&& cd - \
-		&& cd liblo \
-		&& ./autogen.sh --enable-static \
-		&& make \
-		&& cd - \
-		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && make -f makefile.unix static' \
+		&& bash -c 'sed -e "s/WARNFLAGS=\(.*\)$/# WARNFLAGS=\1\nWARNFLAGS=\"-Wall\"/g" $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash > $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.WARNFLAGS.bash' \
+		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.WARNFLAGS.bash && make -f makefile.unix static' \
 		&& cp $EW_INSTALL_HOME/$EW_INSTALL_VERSION/bin/ew2openapi ./ \
 		&& bash -c '. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash && mkdir -p $EW_LOG' \
 		&& cd $EW_INSTALL_HOME/$EW_INSTALL_VERSION/ \
