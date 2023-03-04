@@ -1,9 +1,6 @@
-# FROM debian:stretch
-FROM debian:stretch-slim
-# FROM bitnami/minideb:stretch
-
+#FROM debian:stretch-slim
+FROM debian:buster-slim
 # Authors: Valentino Lauciani and Matteo Quintiliani
-
 LABEL maintainer="Valentino Lauciani <valentino.lauciani@ingv.it>"
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -36,11 +33,11 @@ RUN echo "" >> /root/.bashrc \
      && echo "" >> /root/.bashrc \
      && echo "export LC_ALL=\"C\"" >> /root/.bashrc \
      && echo "" >> /root/.bashrc \
-	 && echo "export EW_INSTALL_INSTALLATION=\"$EW_INSTALL_INSTALLATION}\"" >> /root/.bashrc \
-	 && echo "export EW_INSTALL_HOME=\"${EW_INSTALL_HOME}\"" >> /root/.bashrc \
-	 && echo "export EW_INSTALL_VERSION=\"${EW_INSTALL_VERSION}\"" >> /root/.bashrc \
-	 && echo "export EW_INSTALL_BITS=${EW_INSTALL_BITS}" >> /root/.bashrc \
-	 && echo "export EW_RUN_DIR=\"$EW_INSTALL_HOME/$EW_INSTALL_VERSION\"" >> /root/.bashrc \
+     && echo "export EW_INSTALL_INSTALLATION=\"${EW_INSTALL_INSTALLATION}\"" >> /root/.bashrc \
+     && echo "export EW_INSTALL_HOME=\"${EW_INSTALL_HOME}\"" >> /root/.bashrc \
+     && echo "export EW_INSTALL_VERSION=\"${EW_INSTALL_VERSION}\"" >> /root/.bashrc \
+     && echo "export EW_INSTALL_BITS=${EW_INSTALL_BITS}" >> /root/.bashrc \
+     && echo "export EW_RUN_DIR=\"$EW_INSTALL_HOME/$EW_INSTALL_VERSION\"" >> /root/.bashrc \
      && echo "" >> /root/.bashrc
 
 WORKDIR /opt
@@ -64,6 +61,7 @@ RUN apt-get clean \
 		autotools-dev \
 		pkg-config \
 		jq \
+                vim \
 		&& apt-get clean
 
 # Checkout necessary Earthworm repository directories
@@ -99,6 +97,16 @@ RUN echo \
 		dh-autoreconf \
 		autotools-dev \
 		&& apt-get clean
+
+# Install Go - Used to build shell2http
+RUN curl -O https://dl.google.com/go/go1.20.1.linux-amd64.tar.gz
+RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.1.linux-amd64.tar.gz
+ENV PATH="$PATH:/usr/local/go/bin"
+RUN rm go1.20.1.linux-amd64.tar.gz
+
+# Install shell2http
+RUN go install github.com/msoap/shell2http@latest
+RUN ln -s $(go env GOPATH)/bin/shell2http /usr/local/bin/shell2http
 
 # Copy file(s)
 WORKDIR /opt

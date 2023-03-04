@@ -7,7 +7,10 @@ echo Your container args are: "$@"
 
 # docker run -v $(pwd)/example:/opt/data hyp2000 italy2000.hyp
 
-DIR_DATA=/opt/data
+if [ -z ${DIR_DATA} ]; then
+    DIR_DATA=/opt/data
+fi
+echo "DIR_DATA=${DIR_DATA}"
 
 if [ -d ${DIR_DATA} ]; then
 	
