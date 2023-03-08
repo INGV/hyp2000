@@ -35,18 +35,18 @@ if [ -d ${DIR_DATA} ]; then
 			# N.B. Clean spurious characters substituting with spaces
 			cat ${DIR_OUTPUT}/hypo.arc | tr '\0' ' ' | ew2openapi TYPE_HYP2000ARC - ${DIR_OUTPUT}/hypo.json
 		else
-			echo " The \"${DIR_INPUT}/${1}\" doesn't exist."
+			echo " The \"${DIR_INPUT}/${1}\" doesn't exist." >&2
 			echo ""
 			exit 1
 		fi
 	else
-		echo " the \"${DIR_DATA}/input\" doesn't exist."
+		echo " the \"${DIR_DATA}/input\" doesn't exist." >&2
 		echo ""
 		exit 1
 	fi
 	
 else
-	echo " the \"${DIR_DATA}\" doesn't exist."
+	echo " the \"${DIR_DATA}\" doesn't exist." >&2
         echo ""
         exit 1
 fi
