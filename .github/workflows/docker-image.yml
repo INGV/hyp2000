@@ -34,9 +34,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./DockerfileEwDevGit
+          file: ./Dockerfile
           push: true
-          tags: ingv/hyp2000:ewdevgit
+          tags: ingv/hyp2000:latest
           #tags: ${{ steps.meta.outputs.tags }}
           #labels: ${{ steps.meta.outputs.labels }}
           
