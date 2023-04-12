@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Initialize Earthworm variables
-. $EW_INSTALL_HOME/$EW_INSTALL_VERSION/environment/ew_linux.bash
+. ~/.bashrc 
 
 echo Your container args are: "$@"
 
