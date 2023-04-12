@@ -15,8 +15,8 @@ echo "DIR_DATA=${DIR_DATA}"
 if [ -d ${DIR_DATA} ]; then
 	
 	# 
+	DIR_OUTPUT=${DIR_DATA}/output
 	if [ -d ${DIR_DATA}/output ]; then
-		DIR_OUTPUT=${DIR_DATA}/output
 		if [ -n "$(ls -A ${DIR_OUTPUT})" ]; then
 			rm ${DIR_OUTPUT}/*
 		fi
@@ -30,7 +30,9 @@ if [ -d ${DIR_DATA} ]; then
 		if [ -f ${DIR_INPUT}/${1} ]; then
 			FILE_INPUT=${1}
 			cd ${DIR_DATA}/input
-			cat ${FILE_INPUT} | hyp2000
+			cat ${FILE_INPUT} | hyp2000 > ${DIR_OUTPUT}/output.log 2> ${DIR_OUTPUT}/output.err
+			RET=${?}
+			echo "RET=${RET}"
 			# Create json from arc by ew2openapi
 			# N.B. Clean spurious characters substituting with spaces
 			cat ${DIR_OUTPUT}/hypo.arc | tr '\0' ' ' | ew2openapi TYPE_HYP2000ARC - ${DIR_OUTPUT}/hypo.json
