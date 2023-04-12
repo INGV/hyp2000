@@ -64,7 +64,7 @@ bash-4.4# cat italy2000.hyp | hyp2000
 # Contribute
 Thanks to your contributions!
 
-Here is a list of users who already contributed to this repository:
+Here is a list of users who already contributed to this repository: \
 <a href="https://github.com/ingv/hyp2000/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ingv/hyp2000" />
 </a>
