@@ -34,9 +34,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./Dockerfile
+          file: ./DockerfileEwDevGit
           push: true
-          tags: ingv/hyp2000:latest
+          tags: ingv/hyp2000:ewdevgit
           #tags: ${{ steps.meta.outputs.tags }}
           #labels: ${{ steps.meta.outputs.labels }}
           
@@ -49,7 +49,7 @@ jobs:
           provider: dockerhub
           destination_container_repo: ingv/hyp2000
           readme_file: 'README.md'
-          short_description: 'Python code to calculate ML with different methods and attenuation functions.'
+          short_description: 'Hypoinvers 2000'
         
       #- uses: actions/checkout@v3
       #- name: Build the Docker image
