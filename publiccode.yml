@@ -43,10 +43,10 @@ description:
   en:
     shortDescription: >-
       Docker used to run HYP2000: determines earthquake locations and magnitudes from 
-      seismic network data like first-arrival P and S arrival times, amplitudes and coda durations.
+      seismic network data like first-arrival P and S arrival times.
     documentation: 'https://github.com/INGV/hyp2000/blob/master/README.md'
     longDescription: >
-      Docker used to run HYP2000: determines earthquake locations and magnitudes from
+      HYP2000 determines earthquake locations and magnitudes from
       seismic network data like first-arrival P and S arrival times, amplitudes and coda durations.
       
       Lorem ipsum odor amet, consectetuer adipiscing elit. Congue facilisi sagittis iaculis 
