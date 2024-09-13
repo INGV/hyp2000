@@ -8,7 +8,7 @@ releaseDate: '2024-09-13'
 url: 'https://github.com/INGV/hyp2000'
 logo: images/ingv_logo_text_two_lines.png
 landingURL: 'https://github.com/INGV/hyp2000'
-softwareVersion: v1.2.0
+softwareVersion: v1.1.0
 developmentStatus: stable
 softwareType: standalone/other
 platforms:
