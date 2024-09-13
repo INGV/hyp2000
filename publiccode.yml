@@ -1,0 +1,60 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.4.0'
+name: 'INGV - hyp2000' 
+releaseDate: '2024-09-13'
+url: 'https://github.com/INGV/hyp2000'
+logo: images/ingv_logo_text_two_lines.png
+landingURL: 'https://github.com/INGV/hyp2000'
+softwareVersion: v1.2.0
+developmentStatus: stable
+softwareType: standalone/other
+platforms:
+  - windows
+  - mac
+  - linux
+usedBy:
+  - INGV
+categories:
+  - data-analytics
+  - data-collection
+maintenance:
+  type: internal
+  contacts:
+    - name: Valentino Lauciani
+      email: valentino.lauciani@ingv.it
+legal:
+  repoOwner: 'Istituto Nazionale di Geofisica e Vulcanologia - INGV'
+  license: 'AGPL-3.0-or-later'
+intendedAudience:
+  scope:
+    - research
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - en
+it:
+  countryExtensionVersion: '0.2'
+  riuso:
+    codiceIPA: ingv
+description:
+  en:
+    shortDescription: >-
+      Python code to calculate ML with different 
+      methods and attenuation functions using pyamp_amplitude output file or database table.
+    documentation: 'https://github.com/INGV/hyp2000/blob/master/README.md'
+    longDescription: >
+      Python code, complementary to pyamp, to calculate ML with different 
+      methods and attenuation functions using pyamp_amplitude output file or database table.
+      
+      Lorem ipsum odor amet, consectetuer adipiscing elit. Congue facilisi sagittis iaculis 
+      urna sagittis nascetur mollis. Aptent auctor finibus ut donec scelerisque morbi elit etiam fusce. 
+      Ante hendrerit cursus rutrum sapien cras commodo vivamus ad. Nunc quisque sit aptent potenti in nascetur. 
+      Finibus at semper torquent sollicitudin facilisi nunc inceptos. Lacinia nibh class sagittis 
+      ultrices nisi eleifend nibh vehicula. Rhoncus urna aliquam ligula accumsan aliquet turpis. 
+      Mollis cubilia proin dictumst, felis ridiculus tincidunt ac? Metus felis pharetra bibendum hac montes sit mi.
+    localisedName: 'PyML'
+    features:
+      - Seismic hypocenter and magnitude calculator
