@@ -4,8 +4,8 @@ FROM matteoquintiliani/ew-sandbox:a4bb3e30
 LABEL maintainer="Valentino Lauciani <valentino.lauciani@ingv.it>"
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV INITRD No
-ENV FAKE_CHROOT 1
+ENV INITRD=No
+ENV FAKE_CHROOT=1
 
 # Copy file(s)
 WORKDIR /opt
