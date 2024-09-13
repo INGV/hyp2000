@@ -42,12 +42,12 @@ it:
 description:
   en:
     shortDescription: >-
-      Python code to calculate ML with different 
-      methods and attenuation functions using pyamp_amplitude output file or database table.
+      Docker used to run HYP2000: determines earthquake locations and magnitudes from 
+      seismic network data like first-arrival P and S arrival times, amplitudes and coda durations.
     documentation: 'https://github.com/INGV/hyp2000/blob/master/README.md'
     longDescription: >
-      Python code, complementary to pyamp, to calculate ML with different 
-      methods and attenuation functions using pyamp_amplitude output file or database table.
+      Docker used to run HYP2000: determines earthquake locations and magnitudes from
+      seismic network data like first-arrival P and S arrival times, amplitudes and coda durations.
       
       Lorem ipsum odor amet, consectetuer adipiscing elit. Congue facilisi sagittis iaculis 
       urna sagittis nascetur mollis. Aptent auctor finibus ut donec scelerisque morbi elit etiam fusce. 
