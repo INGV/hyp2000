@@ -8,7 +8,7 @@ on:
       - "v*.*.*"
   pull_request:
     branches:
-      - "main"
+      - "master"
 
 env:
   IMAGE_NAME: ingv/hyp2000
