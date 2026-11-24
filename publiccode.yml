@@ -2,7 +2,7 @@
 # metadata file that makes public software easily discoverable.
 # More info at https://github.com/italia/publiccode.yml
 
-publiccodeYmlVersion: '0.4.0'
+publiccodeYmlVersion: '0'
 name: 'INGV - hyp2000' 
 releaseDate: '2026-11-24'
 url: 'https://github.com/INGV/hyp2000'
@@ -25,8 +25,10 @@ maintenance:
   contacts:
     - name: Valentino Lauciani
       email: valentino.lauciani@ingv.it
+organisation:
+  uri: 'urn:x-italian-pa:ingv'
+  name: 'Istituto Nazionale di Geofisica e Vulcanologia - INGV'
 legal:
-  repoOwner: 'Istituto Nazionale di Geofisica e Vulcanologia - INGV'
   license: 'AGPL-3.0-or-later'
 intendedAudience:
   scope:
@@ -35,10 +37,6 @@ localisation:
   localisationReady: false
   availableLanguages:
     - en
-it:
-  countryExtensionVersion: '0.2'
-  riuso:
-    codiceIPA: ingv
 description:
   en:
     shortDescription: >-
