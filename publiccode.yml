@@ -4,11 +4,11 @@
 
 publiccodeYmlVersion: '0.4.0'
 name: 'INGV - hyp2000' 
-releaseDate: '2024-09-13'
+releaseDate: '2026-11-24'
 url: 'https://github.com/INGV/hyp2000'
 logo: images/ingv_logo_text_two_lines.png
 landingURL: 'https://github.com/INGV/hyp2000'
-softwareVersion: v1.2.0
+softwareVersion: v1.3.0
 developmentStatus: stable
 softwareType: standalone/other
 platforms:
