@@ -22,5 +22,9 @@ RUN cp /opt/ew_env/params/earthworm.d /opt/ew_env/params/earthworm.d.bck \
   && { head -n ${LINE_N} /opt/ew_env/params/earthworm.d && echo " Module   MOD_EW2OPENAPI        $(( ${N_MOD} + 1 ))" && tail -n +$(( ${LINE_N} + 1 )) /opt/ew_env/params/earthworm.d; } > /opt/ew_env/params/earthworm.d.new \
   && mv /opt/ew_env/params/earthworm.d.new /opt/ew_env/params/earthworm.d 
 
+# The release version, read at runtime by the '/version' route that Apollo
+# adds to shell2http. Copied last so a version bump rebuilds only this layer.
+COPY VERSION /opt/VERSION
+
 # Run Hyp2000
 ENTRYPOINT ["bash", "/opt/entrypoint.sh"]
